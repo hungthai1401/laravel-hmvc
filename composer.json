@@ -1,0 +1,44 @@
+{
+    "name": "hungthai1401/laravel-hmvc",
+    "description": "HMVC structure for Laravel",
+    "type": "library",
+    "keywords": [
+        "modules",
+        "laravel",
+        "module",
+        "hmvc"
+    ],
+    "authors": [
+        {
+            "name": "Nguyen Hung Thai",
+            "email": "hungthai1401.it@gmail.com"
+        }
+    ],
+    "require": {
+        "php": "^7.2.5"
+    },
+    "require-dev": {
+        "laravel/framework": "^6.0",
+        "friendsofphp/php-cs-fixer": "^2.16"
+    },
+    "autoload": {
+        "psr-4": {
+            "HT\\Modules\\": "src"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "HT\\Modules\\Providers\\ModuleServiceProvider"
+            ]
+        }
+    },
+    "scripts": {
+        "pcf": "vendor/bin/php-cs-fixer fix --verbose"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

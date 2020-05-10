@@ -1,0 +1,22 @@
+{
+  "name": "",
+  "description": "",
+  "authors": [
+
+  ],
+  "require": {
+
+  },
+  "require-dev": {
+
+  },
+  "autoload": {
+    "psr-4": {
+
+    }
+  },
+  "extra": {
+
+  },
+  "minimum-stability": "dev"
+}
