@@ -35,5 +35,13 @@ php artisan module:create <module-name>
 ```
 php artisan module:remove <module-name>
 ```
+### Create a controller
+```
+php artisan module:make:controller <module-name> <controller-name>
+```
+### Create a model
+```
+php artisan module:make:model <module-name> <model-name> {--table=} {--primary=}
+```
 
 
