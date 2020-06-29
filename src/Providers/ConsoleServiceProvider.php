@@ -3,6 +3,8 @@
 namespace HT\Modules\Providers;
 
 use HT\Modules\Console\CreateModuleCommand;
+use HT\Modules\Console\MakeController;
+use HT\Modules\Console\MakeModel;
 use HT\Modules\Console\RemoveModuleCommand;
 use Illuminate\Support\ServiceProvider;
 
@@ -36,6 +38,8 @@ class ConsoleServiceProvider extends ServiceProvider
         $this->commands([
             CreateModuleCommand::class,
             RemoveModuleCommand::class,
+            MakeController::class,
+            MakeModel::class,
         ]);
     }
 }
