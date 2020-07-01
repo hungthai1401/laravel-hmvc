@@ -11,7 +11,7 @@ class ModuleServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $configPath = __DIR__ . '/../../config/modules.php';
         $this->mergeConfigFrom($configPath, 'modules');
@@ -25,7 +25,7 @@ class ModuleServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->app->register(ConsoleServiceProvider::class);
     }

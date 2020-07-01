@@ -1,0 +1,24 @@
+<?php
+
+namespace DummyNamespace;
+
+use Illuminate\Auth\Access\HandlesAuthorization;
+
+/**
+ * DummyType: DummyClass
+ * @package DummyNamespace
+ */
+class DummyClass
+{
+    use HandlesAuthorization;
+
+    /**
+     * Create a new policy instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        //
+    }
+}

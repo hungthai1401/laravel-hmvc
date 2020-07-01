@@ -52,16 +52,16 @@ abstract class AbstractGenerator extends Command
     /**
      * Execute the console command.
      *
-     * @return bool
+     * @return void
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    public function handle()
+    public function handle(): void
     {
         $this->moduleName = $this->getModuleName();
         if (! $this->moduleExists()) {
             $this->error('Module ' . $this->getModuleName() . ' does not exists!');
 
-            return false;
+            return;
         }
 
         $name = $this->parseName($this->getNameInput());
@@ -71,7 +71,7 @@ abstract class AbstractGenerator extends Command
         if ($this->alreadyExists($this->getNameInput())) {
             $this->error($this->type . ' already exists!');
 
-            return false;
+            return;
         }
 
         $this->makeDirectory($path);
@@ -79,8 +79,6 @@ abstract class AbstractGenerator extends Command
         $this->files->put($path, $this->buildClass($name));
 
         $this->info($this->type . ' created successfully.');
-
-        return true;
     }
 
     /**
@@ -101,7 +99,10 @@ abstract class AbstractGenerator extends Command
         return trim($this->argument('name'));
     }
 
-    protected function moduleExists()
+    /**
+     * @return bool
+     */
+    protected function moduleExists(): bool
     {
         return $this->files->exists($this->modulePath());
     }
@@ -112,7 +113,7 @@ abstract class AbstractGenerator extends Command
      * @param string $rawName
      * @return bool
      */
-    protected function alreadyExists($rawName)
+    protected function alreadyExists($rawName): bool
     {
         $name = $this->parseName($rawName);
 
@@ -122,10 +123,9 @@ abstract class AbstractGenerator extends Command
     /**
      * Build the directory for the class if necessary.
      *
-     * @param string $path
-     * @return string
+     * @param $path
      */
-    protected function makeDirectory($path)
+    protected function makeDirectory($path): void
     {
         if (! $this->files->isDirectory(dirname($path))) {
             $this->files->makeDirectory(dirname($path), 0777, true, true);
@@ -139,7 +139,7 @@ abstract class AbstractGenerator extends Command
      * @return string
      * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
-    protected function buildClass($name)
+    protected function buildClass($name): string
     {
         $stub = $this->files->get($this->getStub());
 
@@ -151,7 +151,7 @@ abstract class AbstractGenerator extends Command
      *
      * @return array
      */
-    protected function getArguments()
+    protected function getArguments(): array
     {
         return [
             ['name', InputArgument::REQUIRED, 'The name of the class'],
@@ -172,7 +172,7 @@ abstract class AbstractGenerator extends Command
      * @param string $name
      * @return string
      */
-    protected function parseName($name)
+    protected function parseName($name): string
     {
         if (Str::contains($name, '/')) {
             $name = str_replace('/', '\\', $name);
@@ -187,7 +187,7 @@ abstract class AbstractGenerator extends Command
      * @param string $name
      * @return string
      */
-    protected function getPath($name)
+    protected function getPath($name): string
     {
         $path = $this->modulePath() . 'src/' . str_replace('\\', '/', $name) . '.php';
 
@@ -201,15 +201,17 @@ abstract class AbstractGenerator extends Command
      * @param string $name
      * @return string|string[]
      */
-    protected function replaceNamespace(&$stub, $name)
+    protected function replaceNamespace(&$stub, $name): string
     {
         $stub = str_replace(
             [
                 'DummyNamespace',
+                'DummyType',
                 'DummyClass',
             ],
             [
                 $this->getNamespace($name),
+                $this->type,
                 $this->getClassName($name),
             ],
             $stub
@@ -228,18 +230,12 @@ abstract class AbstractGenerator extends Command
      * @param string $name
      * @return string
      */
-    protected function getNamespace($name)
+    protected function getNamespace($name): string
     {
         $namespace = trim(implode('\\', array_slice(explode('\\', config('modules.namespace') . '\\' . Str::studly($this->getModuleName()) . '\\' . str_replace('/', '\\', $name)), 0, -1)), '\\');
 
         return $namespace;
     }
-
-    /**
-     * @param string $name
-     * @return string
-     */
-    abstract protected function getClass(string $name): string;
 
     /**
      * @param string $name
@@ -258,4 +254,18 @@ abstract class AbstractGenerator extends Command
      * @return string
      */
     abstract protected function getStub(): string;
+
+    /**
+     * @param string $name
+     * @return string
+     */
+    protected function getClass(string $name): string
+    {
+        $className = $name;
+        if (! Str::endsWith($name, $this->type)) {
+            $className = $name . $this->type;
+        }
+
+        return  Str::plural($this->type) . '\\' . $className;
+    }
 }

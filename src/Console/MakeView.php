@@ -2,43 +2,45 @@
 
 namespace HT\Modules\Console;
 
-use Illuminate\Support\Str;
-
 /**
- * Command: MakeModel
+ * Command: MakeView
  * @package HT\Modules\Console
  */
-class MakeModel extends AbstractGenerator
+class MakeView extends AbstractGenerator
 {
-    /**
-     * Default primary key
-     */
-    private const DEFAULT_PRIMARY_KEY = 'id';
-
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'module:make:model
+    protected $signature = 'module:make:view
     	{module : The alias of the module}
-    	{name : The class name}
-    	{--table= : Custom table name}
-    	{--primary= : Custom primary key}';
+    	{name : The view name}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Create a new model for the specified module.';
+    protected $description = 'Create a new view for the specified module.';
 
     /**
      * The type of class being generated.
      *
      * @var string
      */
-    protected $type = 'Model';
+    protected $type = 'View';
+
+    /**
+     * Get the destination class path.
+     *
+     * @param string $name
+     * @return string
+     */
+    protected function getPath($name): string
+    {
+        return $this->modulePath() . 'resources/views/' . str_replace('\\', '/', $name) . '.blade.php';
+    }
 
     /**
      * Get the stub file for the generator.
@@ -47,7 +49,7 @@ class MakeModel extends AbstractGenerator
      */
     protected function getStub(): string
     {
-        return __DIR__ . '/partial_stubs/model.stub';
+        return __DIR__ . '/partial_stubs/view.stub';
     }
 
     /**
@@ -56,7 +58,7 @@ class MakeModel extends AbstractGenerator
      */
     protected function getClass(string $name): string
     {
-        return 'Entities\\' . $this->getNameInput();
+        return $this->getNameInput();
     }
 
     /**
@@ -65,14 +67,10 @@ class MakeModel extends AbstractGenerator
      */
     protected function replaceParameters($stub)
     {
-        $tableName = $this->option('table') ?: Str::plural(Str::snake($this->getNameInput()));
-        $primaryKey = $this->option('primary') ?: self::DEFAULT_PRIMARY_KEY;
         $stub = str_replace([
-            '{table}',
-            '{primary}',
+            '{module}',
         ], [
-            $tableName,
-            $primaryKey,
+            $this->getModuleName(),
         ], $stub);
 
         return $stub;
