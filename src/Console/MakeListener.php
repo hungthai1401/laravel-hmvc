@@ -3,17 +3,17 @@
 namespace HT\Modules\Console;
 
 /**
- * Command: MakeController
+ * Command: MakeListener
  * @package HT\Modules\Console
  */
-class MakeController extends AbstractGenerator
+class MakeListener extends AbstractGenerator
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'module:make:controller
+    protected $signature = 'module:make:listener
     	{module : The alias of the module}
     	{name : The class name}';
 
@@ -22,14 +22,14 @@ class MakeController extends AbstractGenerator
      *
      * @var string
      */
-    protected $description = 'Create a new controller for the specified module.';
+    protected $description = 'Create a new listener for the specified module.';
 
     /**
      * The type of class being generated.
      *
      * @var string
      */
-    protected $type = 'Controller';
+    protected $type = 'Listener';
 
     /**
      * Get the stub file for the generator.
@@ -38,6 +38,6 @@ class MakeController extends AbstractGenerator
      */
     protected function getStub(): string
     {
-        return __DIR__ . '/partial_stubs/controller.stub';
+        return __DIR__ . '/partial_stubs/listener.stub';
     }
 }

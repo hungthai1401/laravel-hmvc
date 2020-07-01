@@ -20,7 +20,7 @@ class CreateModuleCommand extends AbstractModuleCommand
     /**
      * @var string
      */
-    protected $description = 'Laravel modules generator.';
+    protected $description = 'Create a new module.';
 
     /**
      * Execute the console command.

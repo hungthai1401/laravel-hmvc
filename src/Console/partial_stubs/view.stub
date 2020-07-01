@@ -1,0 +1,5 @@
+@extends('{module}::master')
+
+@section('content')
+
+@endsection
