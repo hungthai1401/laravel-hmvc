@@ -19,7 +19,7 @@ class RemoveModuleCommand extends AbstractModuleCommand
     /**
      * @var string
      */
-    protected $description = 'Laravel modules remove.';
+    protected $description = 'Remove the specified module.';
 
     /**
      * Execute the console command.

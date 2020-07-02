@@ -1,0 +1,20 @@
+<?php
+
+namespace DummyNamespace;
+
+use Illuminate\View\View;
+
+/**
+ * DummyType: DummyClass
+ * @package DummyNamespace
+ */
+class DummyClass
+{
+    /**
+     * @param View $view
+     */
+    public function compose(View $view)
+    {
+
+    }
+}

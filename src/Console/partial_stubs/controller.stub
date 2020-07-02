@@ -1,0 +1,14 @@
+<?php
+
+namespace DummyNamespace;
+
+use Illuminate\Routing\Controller;
+
+/**
+ * Controller: DummyClass
+ * @package DummyNamespace
+ */
+class DummyClass extends Controller
+{
+
+}

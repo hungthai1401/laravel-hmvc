@@ -13,7 +13,7 @@ class ModuleServiceProvider extends AbstractModuleServiceProvider
     /**
      * @return string
      */
-    public function getDir()
+    public function getDir(): string
     {
         return __DIR__;
     }
@@ -21,7 +21,7 @@ class ModuleServiceProvider extends AbstractModuleServiceProvider
     /**
      * @return string
      */
-    public function getModuleName()
+    public function getModuleName(): string
     {
         return 'DummyAlias';
     }
@@ -31,7 +31,7 @@ class ModuleServiceProvider extends AbstractModuleServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         parent::boot();
     }
@@ -41,7 +41,7 @@ class ModuleServiceProvider extends AbstractModuleServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         parent::register();
         $this->app->register(RouteServiceProvider::class);

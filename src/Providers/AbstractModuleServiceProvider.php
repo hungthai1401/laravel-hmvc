@@ -26,7 +26,7 @@ abstract class AbstractModuleServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         $moduleName = $this->getModuleName();
         $dir = $this->getDir();
@@ -41,7 +41,7 @@ abstract class AbstractModuleServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         $this->loadModuleHelpers();
         $this->mergeModuleConfig();
@@ -50,17 +50,19 @@ abstract class AbstractModuleServiceProvider extends ServiceProvider
     /**
      * @return string
      */
-    abstract public function getModuleName();
+    abstract public function getModuleName(): string;
 
     /**
      * @return string
      */
-    abstract public function getDir();
+    abstract public function getDir(): string;
 
     /**
      * This function will publish assets of this module
+     *
+     * @return void
      */
-    protected function publishAssets()
+    protected function publishAssets(): void
     {
         $moduleName = $this->getModuleName();
 
@@ -90,6 +92,8 @@ abstract class AbstractModuleServiceProvider extends ServiceProvider
 
     /**
      * This function will load all helpers of this module
+     *
+     * @return void
      */
     protected function loadModuleHelpers(): void
     {
@@ -101,6 +105,8 @@ abstract class AbstractModuleServiceProvider extends ServiceProvider
 
     /**
      * This function will merge all configs of this module
+     *
+     * @return void
      */
     protected function mergeModuleConfig(): void
     {
