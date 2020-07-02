@@ -13,6 +13,7 @@ use HT\Modules\Console\MakeListener;
 use HT\Modules\Console\MakeMigration;
 use HT\Modules\Console\MakeModel;
 use HT\Modules\Console\MakePolicy;
+use HT\Modules\Console\MakeRepository;
 use HT\Modules\Console\MakeRequest;
 use HT\Modules\Console\MakeRule;
 use HT\Modules\Console\MakeSeeder;
@@ -68,6 +69,7 @@ class ConsoleServiceProvider extends ServiceProvider
             MakeRule::class,
             MakeSeeder::class,
             MakeFactory::class,
+            MakeRepository::class,
         ]);
     }
 }
