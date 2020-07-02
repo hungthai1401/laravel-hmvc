@@ -75,6 +75,10 @@ php artisan module:make:rule <module-name> <rule-name>
 ```
 php artisan module:make:service <module-name> <service-name>
 ```
+#### Create a repository
+```
+php artisan module:make:repository <module-name> <repository-name>
+```
 #### Create a view
 ```
 php artisan module:make:view <module-name> <view-name>
@@ -93,6 +97,6 @@ php artisan module:make:seed <module-name> <seeder-name>
 ```
 #### Create a factory
 ```
-php artisan module:make:facade <module-name> <factory-name>
+php artisan module:make:factory <module-name> <factory-name>
 ```
 
