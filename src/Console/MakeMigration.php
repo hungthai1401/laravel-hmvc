@@ -16,8 +16,8 @@ class MakeMigration extends AbstractGenerator
     protected $signature = 'module:make:migration
     	{module : The alias of the module}
     	{name : The class name}
-    	{--create=}
-    	{--table=}';
+    	{--create= : The name of the table will be creating}
+    	{--table= : The name of the table will be altering}';
 
     /**
      * The console command description.
