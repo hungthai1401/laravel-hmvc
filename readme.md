@@ -39,6 +39,10 @@ php artisan module:remove <module-name>
 ```
 php artisan module:make:controller <module-name> <controller-name>
 ```
+#### Create a provider
+```
+php artisan module:make:provider <module-name> <provider-name>
+```
 #### Create a facade
 ```
 php artisan module:make:facade <module-name> <model-name>
