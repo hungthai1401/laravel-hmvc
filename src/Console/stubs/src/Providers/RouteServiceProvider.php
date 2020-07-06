@@ -18,7 +18,7 @@ class RouteServiceProvider extends ServiceProvider
      *
      * @var string
      */
-    protected $namespace = 'DummyNamespace\Http\Controllers';
+    protected $namespace = 'DummyNamespace\Controllers';
 
     /**
      * Define the routes for the module.
