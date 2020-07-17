@@ -58,7 +58,7 @@ class MakeView extends AbstractGenerator
      */
     protected function getClass(string $name): string
     {
-        return $this->getNameInput();
+        return $name;
     }
 
     /**

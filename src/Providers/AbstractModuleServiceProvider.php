@@ -2,6 +2,7 @@
 
 namespace HT\Modules\Providers;
 
+use Illuminate\Database\Eloquent\Factory;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\ServiceProvider;
 
@@ -45,6 +46,7 @@ abstract class AbstractModuleServiceProvider extends ServiceProvider
     {
         $this->loadModuleHelpers();
         $this->mergeModuleConfig();
+        $this->registerFactories();
     }
 
     /**
@@ -130,5 +132,17 @@ abstract class AbstractModuleServiceProvider extends ServiceProvider
         }
 
         return $result;
+    }
+
+    /**
+     * Register an additional directory of factories.
+     *
+     * @return void
+     */
+    protected function registerFactories()
+    {
+        if ($this->app->runningInConsole()) {
+            app(Factory::class)->load($this->getDir() . '/../../database/factories');
+        }
     }
 }

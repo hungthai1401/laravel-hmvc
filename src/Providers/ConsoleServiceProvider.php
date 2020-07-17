@@ -17,11 +17,13 @@ use HT\Modules\Console\MakeProvider;
 use HT\Modules\Console\MakeRepository;
 use HT\Modules\Console\MakeRequest;
 use HT\Modules\Console\MakeRule;
+use HT\Modules\Console\MakeScope;
 use HT\Modules\Console\MakeSeeder;
 use HT\Modules\Console\MakeService;
 use HT\Modules\Console\MakeView;
 use HT\Modules\Console\MakeViewComposer;
 use HT\Modules\Console\RemoveModuleCommand;
+use HT\Modules\Console\RunSeed;
 use Illuminate\Support\ServiceProvider;
 
 /**
@@ -72,6 +74,8 @@ class ConsoleServiceProvider extends ServiceProvider
             MakeFactory::class,
             MakeRepository::class,
             MakeProvider::class,
+            MakeScope::class,
+            RunSeed::class,
         ]);
     }
 }
