@@ -39,19 +39,27 @@ php artisan module:remove <module-name>
 ```
 php artisan module:make:controller <module-name> <controller-name>
 ```
+#### Create a model
+```
+php artisan module:make:model <module-name> <model-name>
+```
+#### Create a scope
+```
+php artisan module:make:scope <module-name> <scope-name>
+```
 #### Create a provider
 ```
 php artisan module:make:provider <module-name> <provider-name>
 ```
 #### Create a facade
 ```
-php artisan module:make:facade <module-name> <model-name>
+php artisan module:make:facade <module-name> <facade-name>
 ```
 #### Create a policy
 ```
 php artisan module:make:policy <module-name> <policy-name>
 ```
-#### Create a event
+#### Create an event
 ```
 php artisan module:make:event <module-name> <event-name>
 ```
@@ -103,4 +111,7 @@ php artisan module:make:seed <module-name> <seeder-name>
 ```
 php artisan module:make:factory <module-name> <factory-name>
 ```
-
+#### Run seeders in a module
+```
+php artisan module:db:seed <module-name> {--class}
+```

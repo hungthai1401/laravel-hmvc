@@ -111,6 +111,7 @@ class CreateModuleCommand extends AbstractModuleCommand
             $composerJson['description'] = $this->container['description'];
             $composerJson['authors'][] = $this->container['authors'];
             $composerJson['autoload']['psr-4'][$this->container['namespace'] . '\\'] = 'src/';
+            $composerJson['autoload']['classmap'] = [['database/factories', 'database/seeds']];
             $composerJson['require'] = new stdClass();
             $composerJson['require-dev'] = new stdClass();
             $composerJson['extra']['laravel']['providers'] = $this->container['namespace'] . '\\Providers\\ModuleServiceProvider';

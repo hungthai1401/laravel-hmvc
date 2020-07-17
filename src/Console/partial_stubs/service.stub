@@ -2,8 +2,6 @@
 
 namespace DummyNamespace;
 
-use Illuminate\Auth\Access\HandlesAuthorization;
-
 /**
  * DummyType: DummyClass
  * @package DummyNamespace

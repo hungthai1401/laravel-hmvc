@@ -56,7 +56,7 @@ class MakeModel extends AbstractGenerator
      */
     protected function getClass(string $name): string
     {
-        return 'Entities\\' . $this->getNameInput();
+        return 'Entities\\' . $name;
     }
 
     /**
