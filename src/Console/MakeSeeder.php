@@ -2,7 +2,7 @@
 
 namespace HT\Modules\Console;
 
-use Illuminate\Support\Str;
+use Symfony\Component\Process\Process;
 
 /**
  * Command: MakeSeeder
@@ -44,6 +44,16 @@ class MakeSeeder extends AbstractGenerator
     }
 
     /**
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
+     */
+    public function handle(): void
+    {
+        parent::handle();
+        $process = Process::fromShellCommandline('composer du');
+        $process->run();
+    }
+
+    /**
      * Get the destination class path.
      *
      * @param string $name
@@ -60,11 +70,6 @@ class MakeSeeder extends AbstractGenerator
      */
     protected function getClass(string $name): string
     {
-        $className = $name;
-        if (! Str::endsWith($name, $this->type)) {
-            $className = $name . $this->type;
-        }
-
-        return $className;
+        return $name;
     }
 }

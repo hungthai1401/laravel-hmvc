@@ -154,7 +154,8 @@ abstract class AbstractGenerator extends Command
     protected function getArguments(): array
     {
         return [
-            ['name', InputArgument::REQUIRED, 'The name of the class'],
+            ['module', InputArgument::REQUIRED, 'The alias of the module', ],
+            ['name', InputArgument::REQUIRED, 'The name of the class', ],
         ];
     }
 
@@ -189,9 +190,7 @@ abstract class AbstractGenerator extends Command
      */
     protected function getPath($name): string
     {
-        $path = $this->modulePath() . 'src/' . str_replace('\\', '/', $name) . '.php';
-
-        return $path;
+        return $this->modulePath() . 'src/' . str_replace('\\', '/', $name) . '.php';
     }
 
     /**
@@ -232,9 +231,7 @@ abstract class AbstractGenerator extends Command
      */
     protected function getNamespace($name): string
     {
-        $namespace = trim(implode('\\', array_slice(explode('\\', config('modules.namespace') . '\\' . Str::studly($this->getModuleName()) . '\\' . str_replace('/', '\\', $name)), 0, -1)), '\\');
-
-        return $namespace;
+        return trim(implode('\\', array_slice(explode('\\', config('modules.namespace') . '\\' . Str::studly($this->getModuleName()) . '\\' . str_replace('/', '\\', $name)), 0, -1)), '\\');
     }
 
     /**
@@ -261,11 +258,6 @@ abstract class AbstractGenerator extends Command
      */
     protected function getClass(string $name): string
     {
-        $className = $name;
-        if (! Str::endsWith($name, $this->type)) {
-            $className = $name . $this->type;
-        }
-
-        return  Str::plural($this->type) . '\\' . $className;
+        return Str::plural($this->type) . '\\' . $name;
     }
 }

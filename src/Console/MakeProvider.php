@@ -2,8 +2,6 @@
 
 namespace HT\Modules\Console;
 
-use Illuminate\Support\Str;
-
 /**
  * Command: MakeProvider
  * @package HT\Modules\Console
@@ -49,12 +47,6 @@ class MakeProvider extends AbstractGenerator
      */
     protected function getClass(string $name): string
     {
-        $className = $name;
-        $type = 'ServiceProvider';
-        if (! Str::endsWith($name, $type)) {
-            $className = $name . $type;
-        }
-
-        return  'Providers\\' . $className;
+        return  'Providers\\' . $name;
     }
 }
