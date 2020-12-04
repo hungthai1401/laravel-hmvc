@@ -30,11 +30,6 @@ abstract class AbstractGenerator extends Command
     /**
      * @var string
      */
-    protected $moduleType;
-
-    /**
-     * @var string
-     */
     protected $moduleName;
 
     /**
@@ -231,7 +226,9 @@ abstract class AbstractGenerator extends Command
      */
     protected function getNamespace($name): string
     {
-        return trim(implode('\\', array_slice(explode('\\', config('modules.namespace') . '\\' . Str::studly($this->getModuleName()) . '\\' . str_replace('/', '\\', $name)), 0, -1)), '\\');
+        return trim(implode('\\', array_slice(explode('\\', config('modules.namespace') . '\\' . implode('\\', array_map(function ($item) {
+            return Str::studly($item);
+        }, explode('/', $this->getModuleName()))) . '\\' . str_replace('/', '\\', $name)), 0, -1)), '\\');
     }
 
     /**

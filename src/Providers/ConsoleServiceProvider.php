@@ -23,6 +23,7 @@ use HT\Modules\Console\MakeService;
 use HT\Modules\Console\MakeView;
 use HT\Modules\Console\MakeViewComposer;
 use HT\Modules\Console\RemoveModuleCommand;
+use HT\Modules\Console\RunMigrate;
 use HT\Modules\Console\RunSeed;
 use Illuminate\Support\ServiceProvider;
 
@@ -76,6 +77,7 @@ class ConsoleServiceProvider extends ServiceProvider
             MakeProvider::class,
             MakeScope::class,
             RunSeed::class,
+            RunMigrate::class,
         ]);
     }
 }

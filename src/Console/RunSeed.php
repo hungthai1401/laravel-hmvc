@@ -2,15 +2,13 @@
 
 namespace HT\Modules\Console;
 
-use Illuminate\Console\Command;
-use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Str;
 
 /**
  * Command: RunSeed
  * @package HT\Modules\Console
  */
-class RunSeed extends Command
+class RunSeed extends AbstractRunCommand
 {
     /**
      * The name and signature of the console command.
@@ -29,41 +27,12 @@ class RunSeed extends Command
     protected $description = 'Run database seeder from the specified module.';
 
     /**
-     * The filesystem instance.
-     *
-     * @var \Illuminate\Filesystem\Filesystem
-     */
-    protected $files;
-
-    /**
-     * @var string
-     */
-    protected $moduleName;
-
-    /**
-     * Create a new controller creator command instance.
-     *
-     * @param \Illuminate\Filesystem\Filesystem $files
-     * @return void
-     */
-    public function __construct(Filesystem $files)
-    {
-        parent::__construct();
-        $this->files = $files;
-    }
-
-    /**
      * Execute the console command.
      */
-    public function handle()
+    public function handle(): void
     {
         try {
-            $this->moduleName = $this->getModuleName();
-            if (! $this->moduleExists()) {
-                $this->error('Module ' . $this->getModuleName() . ' does not exists!');
-
-                return;
-            }
+            parent::handle();
             $this->moduleSeed();
         } catch (\Throwable $exception) {
             $this->error($exception->getMessage());
@@ -72,33 +41,9 @@ class RunSeed extends Command
     }
 
     /**
-     * @return string
-     */
-    protected function getModuleName(): string
-    {
-        return trim($this->argument('module'));
-    }
-
-    /**
-     * @return bool
-     */
-    protected function moduleExists(): bool
-    {
-        return $this->files->exists($this->modulePath());
-    }
-
-    /**
-     * @return string
-     */
-    protected function modulePath(): string
-    {
-        return base_path(config('modules.directory') . '/' . $this->moduleName . '/');
-    }
-
-    /**
      * module seed
      */
-    public function moduleSeed()
+    public function moduleSeed(): void
     {
         $result = [];
         if ($option = $this->option('class')) {
@@ -120,7 +65,7 @@ class RunSeed extends Command
      *
      * @param string $class
      */
-    protected function dbSeed($class)
+    protected function dbSeed($class): void
     {
         $this->call('db:seed', ['--class' => $class]);
     }

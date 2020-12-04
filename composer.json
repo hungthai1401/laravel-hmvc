@@ -15,10 +15,11 @@
         }
     ],
     "require": {
-        "php": "^7.2.5"
+        "php": "^7.2.5",
+        "ext-json": "*"
     },
     "require-dev": {
-        "laravel/framework": "^6.0",
+        "laravel/framework": "^6.0|^7.0",
         "friendsofphp/php-cs-fixer": "^2.16"
     },
     "autoload": {

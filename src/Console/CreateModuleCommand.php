@@ -4,7 +4,6 @@ namespace HT\Modules\Console;
 
 use Illuminate\Support\Str;
 use stdClass;
-use Symfony\Component\Process\Process;
 
 /**
  * Command: CreateModuleCommand
@@ -12,6 +11,8 @@ use Symfony\Component\Process\Process;
  */
 class CreateModuleCommand extends AbstractModuleCommand
 {
+    protected const COMPOSER_COMMAND_TYPE = 'require';
+
     /**
      * @var string
      */
@@ -50,20 +51,18 @@ class CreateModuleCommand extends AbstractModuleCommand
      */
     protected function getModuleInformation(): void
     {
-        $this->container['name'] = Str::slug($this->argument('name'));
-        $directory = base_path(sprintf('%s/%s', $this->getModulesDirectory(), $this->container['name']));
-        if ($this->files->exists($directory)) {
+        parent::getModuleInformation();
+        if ($this->files->exists($this->container['path'])) {
             $this->error('The module path already exists');
             exit();
         }
 
-        $this->container['path'] = $directory;
         $this->container['authors']['name'] = $this->ask('Author name of module:', config('modules.authors.name'));
         $this->container['authors']['email'] = $this->ask('Author email of module:', config('modules.authors.email'));
         $this->container['description'] = $this->ask('Description of module:', '');
         $this->container['namespace'] = $this->ask(
             'Namespace of module:',
-            config('modules.namespace') . '\\' . Str::studly($this->container['name'])
+            implode('\\', array_filter([ config('modules.namespace'), Str::studly($this->container['subPath']), Str::studly($this->container['name'])]))
         );
     }
 
@@ -72,7 +71,7 @@ class CreateModuleCommand extends AbstractModuleCommand
      */
     protected function generatingModule(): void
     {
-        if (! $this->files->makeDirectory($this->container['path'])) {
+        if (! $this->files->makeDirectory($this->container['path'], 0755, true)) {
             $this->error('The module path can not be created');
             exit();
         }
@@ -93,11 +92,7 @@ class CreateModuleCommand extends AbstractModuleCommand
      */
     protected function installModule(): void
     {
-        $command = 'composer require ' . static::MODULE_TYPE . '/' . $this->container['name'];
-        $this->info($command);
-        $process = Process::fromShellCommandline($command);
-        $process->run();
-        $this->info($process->getOutput());
+        $this->runComposerCommand();
     }
 
     /**
@@ -107,7 +102,7 @@ class CreateModuleCommand extends AbstractModuleCommand
     {
         try {
             $composerJson = json_decode($this->files->get($this->container['path'] . '/composer.json'), true);
-            $composerJson['name'] = self::MODULE_TYPE . '/' . $this->container['name'];
+            $composerJson['name'] = self::MODULE_TYPE . '/' . $this->getPackageName();
             $composerJson['description'] = $this->container['description'];
             $composerJson['authors'][] = $this->container['authors'];
             $composerJson['autoload']['psr-4'][$this->container['namespace'] . '\\'] = 'src/';
@@ -123,8 +118,7 @@ class CreateModuleCommand extends AbstractModuleCommand
             $files = $this->files->allFiles($this->container['path']);
             foreach ($files as $file) {
                 $contents = $this->replacePlaceholders($file->getContents());
-                $filePath = base_path(config('modules.directory') . '/' . $this->container['name'] . '/' . $file->getRelativePathname());
-
+                $filePath = $this->container['path'] . '/' . $file->getRelativePathname();
                 $this->files->put($filePath, $contents);
             }
         } catch (\Throwable $exception) {
@@ -147,7 +141,7 @@ class CreateModuleCommand extends AbstractModuleCommand
 
         $replace = [
             $this->container['namespace'],
-            $this->container['name'],
+            Str::replaceArray('-', ['/'], $this->getPackageName()),
         ];
 
         return str_replace($find, $replace, $contents);

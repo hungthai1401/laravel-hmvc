@@ -3,7 +3,6 @@
 namespace HT\Modules\Console;
 
 use Illuminate\Support\Str;
-use Symfony\Component\Process\Process;
 
 /**
  * Command: RemoveModuleCommand
@@ -11,6 +10,8 @@ use Symfony\Component\Process\Process;
  */
 class RemoveModuleCommand extends AbstractModuleCommand
 {
+    protected const COMPOSER_COMMAND_TYPE = 'remove';
+
     /**
      * @var string
      */
@@ -42,14 +43,11 @@ class RemoveModuleCommand extends AbstractModuleCommand
             exit();
         }
 
-        $this->container['name'] = Str::slug($this->argument('name'));
-        $directory = base_path(sprintf('%s/%s', $this->getModulesDirectory(), $this->container['name']));
-        if (! $this->files->exists($directory)) {
+        parent::getModuleInformation();
+        if (! $this->files->exists($this->container['path'])) {
             $this->error('The module path does not exists');
             exit();
         }
-
-        $this->container['path'] = $directory;
     }
 
     /**
@@ -57,11 +55,7 @@ class RemoveModuleCommand extends AbstractModuleCommand
      */
     protected function removeModule(): void
     {
-        $command = 'composer remove ' . static::MODULE_TYPE . '/' . $this->container['name'];
-        $this->info($command);
-        $process = Process::fromShellCommandline($command);
-        $process->run();
-        $this->info($process->getOutput());
+        $this->runComposerCommand();
     }
 
     /**
